@@ -5,6 +5,7 @@ import os
 from io import BytesIO
 import re
 
+#Main function with all the functionality
 def scrape_image():
     search=input("Search for:")
     params={"q":search}
@@ -14,6 +15,7 @@ def scrape_image():
     bimg = re.compile("mm.bing.net")
     links = soup.find_all("img", {"src": bimg})
     try:
+        #creating folder to store images
         path = os.path.join("./",search) 
         os.mkdir(path)
         i=0
@@ -21,6 +23,7 @@ def scrape_image():
             i+=1
             img_obj=requests.get(item.attrs["src"])
             img=Image.open(BytesIO(img_obj.content))
+            #storing the images in the new folder
             img.save("./"+search+"/"+search+str(i)+"."+img.format)
     except:
         print("Could not create folder check if folder already exists")
